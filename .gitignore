@@ -1,1 +1,9 @@
 venv/
+__pycache__/
+*.pyc
+medicycle.db
+medicycle_streamlit.db
+uploads/
+proofs/
+qr_codes/
+reports/
