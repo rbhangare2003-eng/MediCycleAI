@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disposal Certificate - MediCycle AI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Poppins', sans-serif;
+        }
+        .certificate-container {
+            padding: 50px;
+            width: 100%;
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: white;
+            border: 15px solid #764ba2;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            position: relative;
+            text-align: center;
+        }
+        .certificate-container::before {
+            content: '';
+            position: absolute;
+            top: 5px; left: 5px; right: 5px; bottom: 5px;
+            border: 2px solid #667eea;
+            pointer-events: none;
+        }
+        h1 {
+            color: #4a148c;
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+        .recipient-name {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4rem;
+            color: #667eea;
+            margin: 20px 0;
+            border-bottom: 2px solid #eee;
+            display: inline-block;
+            padding: 0 50px;
+        }
+        .description {
+            font-size: 1.2rem;
+            color: #555;
+            line-height: 1.6;
+        }
+        .qr-section {
+            margin-top: 30px;
+        }
+        .qr-image {
+            border: 4px solid #f0f2f5;
+            padding: 10px;
+            background: white;
+            border-radius: 10px;
+            width: 150px;
+        }
+        .footer-note {
+            margin-top: 40px;
+            font-style: italic;
+            color: #888;
+        }
+        .btn-print {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 50px;
+            margin-top: 20px;
+            transition: 0.3s;
+        }
+        .btn-print:hover {
+            transform: scale(1.05);
+            color: white;
+        }
+        @media print {
+            .no-print { display: none; }
+            .certificate-container { margin: 0; border: 10px solid #764ba2; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container text-center no-print mt-4">
+    <a href="/" class="btn btn-sm btn-outline-secondary">← Back to Home</a>
+</div>
+
+<div class="certificate-container">
+    <div class="logo mb-3">
+        <h4 class="fw-bold text-uppercase" style="letter-spacing: 3px; color: #764ba2;">MediCycle AI</h4>
+    </div>
+    
+    <p class="text-muted text-uppercase mb-0" style="letter-spacing: 2px;">Certificate of Appreciation</p>
+    <h1>Eco-Warrior</h1>
+    
+    <p class="description">This is to proudly certify that</p>
+    
+    <div class="recipient-name">{{ name }}</div>
+    
+    <p class="description">
+        has demonstrated exceptional environmental responsibility by safely disposing of medical waste. 
+        Through this action, they have actively contributed to the global fight against 
+        <strong>Antimicrobial Resistance (AMR)</strong>.
+    </p>
+
+    <div class="qr-section">
+        <img src="{{ url_for('static', filename=qr_image) }}" alt="Verification QR" class="qr-image">
+        <p class="small text-muted mt-2">Scan to verify this achievement</p>
+    </div>
+
+    <div class="footer-note">
+        "One small step in disposal, one giant leap for our ecosystem."
+    </div>
+</div>
+
+<div class="text-center no-print mb-5">
+    <button onclick="window.print()" class="btn btn-print shadow-lg">📥 Download / Print Certificate</button>
+    <a href="/dashboard" class="btn btn-outline-primary ms-2" style="border-radius: 50px; padding: 10px 30px;">📊 View Stats</a>
+</div>
+
+</body>
+</html>

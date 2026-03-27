@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Proof Submission - MediCycle AI{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="home-tag">Proof Submission</div>
+    <h1>Submit Disposal Proof</h1>
+    <p class="soft-subtitle">Upload proof after safely disposing the medicine.</p>
+
+    <div class="upload-box premium-card">
+        <form action="{{ url_for('submit_proof') }}" method="POST" enctype="multipart/form-data">
+            <label>Medicine Name</label><br>
+            <input type="text" name="medicine_name" value="{{ prefill_medicine or '' }}" placeholder="Enter medicine name" required><br><br>
+
+            <label>Disposal Method</label><br>
+            <select name="disposal_method" required>
+                <option>Returned to Pharmacy</option>
+                <option>Disposed in Collection Bin</option>
+                <option>Hospital Drop-off</option>
+            </select><br><br>
+
+            <label>Upload Proof Image</label><br>
+            <input type="file" name="proof_image" accept=".png,.jpg,.jpeg"><br><br>
+
+            <button type="submit">Submit Proof</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

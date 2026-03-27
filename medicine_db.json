@@ -1,0 +1,28 @@
+{
+  "antibiotics": [
+    "amoxicillin",
+    "amoxycillin",
+    "azithromycin",
+    "ciprofloxacin",
+    "doxycycline",
+    "cefixime",
+    "metronidazole",
+    "levofloxacin",
+    "ofloxacin",
+    "clindamycin",
+    "cephalexin",
+    "ceftriaxone",
+    "linezolid",
+    "moxifloxacin",
+    "norfloxacin",
+    "clarithromycin",
+    "ampicillin",
+    "co-amoxiclav",
+    "amikacin",
+    "meropenem",
+    "imipenem",
+    "rifaximin",
+    "rifampicin",
+    "vancomycin"
+  ]
+}

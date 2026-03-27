@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}History - MediCycle AI{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="home-tag">Complete Activity History</div>
+    <h1>Scan and Proof History</h1>
+    <p class="soft-subtitle">All recorded scan and proof entries for your account.</p>
+
+    <div class="dashboard-grid">
+        <div class="ocr-box dashboard-panel">
+            <h2 class="panel-title-blue">All Scan Records</h2>
+            {% if scans %}
+                {% for scan in scans %}
+                <div class="record-card">
+                    <p><b>📁 File:</b> {{ scan["filename"] }}</p>
+                    <p><b>💊 Medicine:</b> {{ scan["detected_medicine"] }}</p>
+                    <p><b>📂 Category:</b> {{ scan["category"] }}</p>
+                    <p><b>⚠️ Risk:</b> {{ scan["risk_level"] }}</p>
+                    <p><b>🎯 Confidence:</b> {{ scan["confidence"] }}</p>
+                    <p><b>📅 Expiry:</b> {{ scan["expiry_date"] }}</p>
+                    <p><b>⭐ Points:</b> {{ scan["points_awarded"] }}</p>
+                    <p><b>🕒 Time:</b> {{ scan["created_at"] }}</p>
+                    <div class="mini-actions">
+                        <a href="{{ url_for('result_page', scan_id=scan['id']) }}">Open Result</a>
+                        <a href="{{ url_for('download_report', scan_id=scan['id']) }}">Download PDF</a>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p>No scan records yet.</p>
+            {% endif %}
+        </div>
+
+        <div class="ocr-box dashboard-panel">
+            <h2 class="panel-title-green">All Proof Records</h2>
+            {% if proofs %}
+                {% for proof in proofs %}
+                <div class="record-card">
+                    <p><b>💊 Medicine:</b> {{ proof["medicine_name"] }}</p>
+                    <p><b>♻️ Method:</b> {{ proof["disposal_method"] }}</p>
+                    <p><b>🖼️ Proof Image:</b> {{ proof["proof_image"] }}</p>
+                    <p><b>🔐 Verification ID:</b> {{ proof["verification_id"] }}</p>
+                    <p><b>🕒 Time:</b> {{ proof["created_at"] }}</p>
+                    <img class="history-qr" src="{{ url_for('static', filename='certificates/' + proof['qr_file']) }}" alt="QR">
+                </div>
+                {% endfor %}
+            {% else %}
+                <p>No proof records yet.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

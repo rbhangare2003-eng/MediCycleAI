@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Proof Success - MediCycle AI{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="home-tag">Verified Disposal Proof</div>
+    <h1>Proof Submitted Successfully</h1>
+    <p class="soft-subtitle">Your disposal proof has been recorded and verified with a unique ID.</p>
+
+    <div class="summary-box premium-card success-card">
+        <p><b>Medicine Name:</b> {{ proof["medicine_name"] }}</p>
+        <p><b>Disposal Method:</b> {{ proof["disposal_method"] }}</p>
+        <p><b>Verification ID:</b> {{ proof["verification_id"] }}</p>
+        <p><b>Time:</b> {{ proof["created_at"] }}</p>
+
+        <div class="qr-wrap">
+            <img src="{{ url_for('static', filename='certificates/' + proof['qr_file']) }}" alt="QR Certificate">
+        </div>
+    </div>
+
+    <div class="result-actions">
+        <a href="{{ url_for('dashboard') }}">View Dashboard</a>
+        <a href="{{ url_for('history') }}">Open History</a>
+        <a href="{{ url_for('home') }}">Back to Home</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - MediCycle AI{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="home-tag">Live Monitoring Dashboard</div>
+    <h1>Admin Dashboard</h1>
+    <p class="soft-subtitle">Real-time stats, risk distribution, and recent activity.</p>
+
+    <div class="stats-grid">
+        <div class="stat-card total">
+            <div class="stat-icon">📷</div>
+            <h3>Total Scans</h3>
+            <p>{{ total_scans }}</p>
+        </div>
+        <div class="stat-card antibiotic">
+            <div class="stat-icon">💊</div>
+            <h3>Antibiotics Detected</h3>
+            <p>{{ antibiotics_detected }}</p>
+        </div>
+        <div class="stat-card risk">
+            <div class="stat-icon">⚠️</div>
+            <h3>High Risk Cases</h3>
+            <p>{{ high_risk_count }}</p>
+        </div>
+        <div class="stat-card proof">
+            <div class="stat-icon">✅</div>
+            <h3>Proof Submissions</h3>
+            <p>{{ proof_submissions }}</p>
+        </div>
+    </div>
+
+    <div class="chart-grid">
+        <div class="chart-card">
+            <h2>Detection Progress</h2>
+            <div class="progress-item">
+                <div class="progress-label">
+                    <span>Antibiotic Detection Rate</span>
+                    <span>{{ antibiotic_percent }}%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill blue-fill" style="width: {{ antibiotic_percent }}%;"></div>
+                </div>
+            </div>
+
+            <div class="progress-item">
+                <div class="progress-label">
+                    <span>Proof Submission Rate</span>
+                    <span>{{ proof_percent }}%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill green-fill" style="width: {{ proof_percent }}%;"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-card">
+            <h2>Risk Distribution</h2>
+            <div class="pie-wrap">
+                <div class="pie-chart"
+                     style="background: conic-gradient(#ef4444 0% {% if total_scans %}{{ (high_risk_count / total_scans * 100) | round(0, 'floor') }}{% else %}0{% endif %}%,
+                                                    #22c55e {% if total_scans %}{{ (high_risk_count / total_scans * 100) | round(0, 'floor') }}{% else %}0{% endif %}% 100%);">
+                </div>
+            </div>
+            <div class="pie-legend">
+                <span><i class="legend-dot red-dot"></i> High Risk: {{ high_risk_count }}</span>
+                <span><i class="legend-dot green-dot"></i> Low Risk / Other: {{ safe_count }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="dashboard-grid">
+        <div class="ocr-box dashboard-panel hover-panel">
+            <h2 class="panel-title-blue">Recent Scan Records</h2>
+            {% if recent_scans %}
+                {% for scan in recent_scans %}
+                    <div class="record-card animated-card">
+                        <p><b>📁 File:</b> {{ scan["filename"] }}</p>
+                        <p><b>🧾 Status:</b> {{ scan["status_title"] }}</p>
+                        <p><b>💊 Medicine:</b> {{ scan["detected_medicine"] }}</p>
+                        <p><b>📂 Category:</b> {{ scan["category"] }}</p>
+                        <p><b>⚠️ Risk:</b> {{ scan["risk_level"] }}</p>
+                        <p><b>🎯 Confidence:</b> {{ scan["confidence"] }}</p>
+                        <p><b>⭐ Points:</b> {{ scan["points_awarded"] }}</p>
+                        <p><b>🕒 Time:</b> {{ scan["created_at"] }}</p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No scan records yet.</p>
+            {% endif %}
+        </div>
+
+        <div class="ocr-box dashboard-panel hover-panel">
+            <h2 class="panel-title-green">Recent Proof Records</h2>
+            {% if recent_proofs %}
+                {% for proof in recent_proofs %}
+                    <div class="record-card animated-card">
+                        <p><b>💊 Medicine:</b> {{ proof["medicine_name"] }}</p>
+                        <p><b>♻️ Method:</b> {{ proof["disposal_method"] }}</p>
+                        <p><b>🖼️ Proof Image:</b> {{ proof["proof_image"] }}</p>
+                        <p><b>🔐 Verification ID:</b> {{ proof["verification_id"] }}</p>
+                        <p><b>🕒 Time:</b> {{ proof["created_at"] }}</p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No proof submissions yet.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="result-actions">
+        <a href="{{ url_for('history') }}">View Full History</a>
+        <a href="{{ url_for('proof') }}">Submit Proof</a>
+        <a href="{{ url_for('home') }}">Back to Home</a>
+    </div>
+</div>
+{% endblock %}

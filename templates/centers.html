@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Centers - MediCycle AI{% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="home-tag">Nearest Disposal Centers</div>
+    <h1>Find Disposal Centers</h1>
+    <p class="soft-subtitle">Interactive map for nearby pharmacy, NGO, and hospital drop-off points.</p>
+
+    <div id="map"></div>
+
+    <div class="dashboard-grid center-grid">
+        {% for c in centers %}
+        <div class="record-card premium-card">
+            <p><b>🏢 Name:</b> {{ c.name }}</p>
+            <p><b>📍 Location:</b> {{ c.location }}</p>
+            <p><b>📂 Type:</b> {{ c.type }}</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+{% block extra_scripts %}
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    const centers = {{ centers_json|safe }};
+    const map = L.map('map').setView([18.5204, 73.8567], 11);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: 'OpenStreetMap'
+    }).addTo(map);
+
+    centers.forEach(c => {
+        L.marker([c.lat, c.lng]).addTo(map)
+            .bindPopup(`<b>${c.name}</b><br>${c.location}<br>${c.type}`);
+    });
+
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(pos => {
+            const lat = pos.coords.latitude;
+            const lng = pos.coords.longitude;
+            L.marker([lat, lng]).addTo(map).bindPopup("Your Location").openPopup();
+            map.setView([lat, lng], 12);
+        });
+    }
+</script>
+{% endblock %}

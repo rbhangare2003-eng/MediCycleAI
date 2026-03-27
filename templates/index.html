@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Home - MediCycle AI{% endblock %}
+{% block content %}
+<div class="container home-simple">
+    <div class="home-tag">AI-Powered Safe Medicine Disposal Platform</div>
+    <h1>MediCycle AI</h1>
+    <p class="soft-subtitle">Upload or capture a medicine image and get safe disposal guidance.</p>
+
+    <div class="upload-box premium-card">
+        <form action="{{ url_for('upload_image') }}" method="POST" enctype="multipart/form-data" id="scanForm">
+            <input type="file" name="medicine_image" accept=".png,.jpg,.jpeg" id="fileInput"><br><br>
+
+            <input type="hidden" name="camera_data" id="cameraData">
+
+            <div class="camera-section">
+                <video id="cameraStream" autoplay playsinline></video>
+                <canvas id="cameraCanvas"></canvas>
+            </div>
+
+            <div class="result-actions">
+                <button type="button" onclick="startCamera()">Open Camera</button>
+                <button type="button" onclick="capturePhoto()">Capture</button>
+                <button type="submit">Analyze Medicine</button>
+            </div>
+        </form>
+
+        <div class="info-highlight">
+            You can upload from gallery or directly capture from browser camera.
+        </div>
+    </div>
+
+    <div class="result-actions">
+        <a href="{{ url_for('centers') }}">📍 Find Nearest Disposal Center</a>
+        <a href="{{ url_for('dashboard') }}">📊 View Dashboard</a>
+        <a href="{{ url_for('history') }}">🕘 Scan History</a>
+    </div>
+</div>
+{% endblock %}

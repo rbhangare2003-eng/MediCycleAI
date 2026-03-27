@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}MediCycle AI{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    {% if current_user %}
+    <div class="top-profile">
+        <div class="profile-left">
+            <span class="profile-name">👤 {{ current_user["username"] }}</span>
+            <span class="profile-rank">{{ current_user["rank"] }}</span>
+        </div>
+        <div class="profile-right">⭐ {{ current_user["points"] }} Points</div>
+    </div>
+
+    <nav class="main-nav">
+        <a href="{{ url_for('home') }}">Home</a>
+        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        <a href="{{ url_for('history') }}">History</a>
+        <a href="{{ url_for('centers') }}">Centers</a>
+        <a href="{{ url_for('proof') }}">Proof</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </nav>
+    {% endif %}
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="flash-wrap">
+          {% for message in messages %}
+            <div class="flash-msg">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+
+    {% if current_user %}
+    <div class="chatbot-toggle" onclick="toggleChatbot()">💬</div>
+
+    <div class="chatbot-box" id="chatbotBox">
+        <div class="chatbot-header">
+            <span>MediCycle AI Assistant</span>
+            <button onclick="toggleChatbot()">✕</button>
+        </div>
+        <div class="chatbot-messages" id="chatMessages">
+            <div class="bot-msg">Hello! Ask about disposal, antibiotics, AMR, points, or centers.</div>
+        </div>
+        <div class="chatbot-input-wrap">
+            <input type="text" id="chatInput" placeholder="Type your question...">
+            <button onclick="sendChat()">Send</button>
+            <button onclick="startVoiceInput()">🎤</button>
+        </div>
+    </div>
+    {% endif %}
+
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}Result - MediCycle AI{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="home-tag">Analysis Result</div>
+    <h1>Medicine Analysis Result</h1>
+    <p class="soft-subtitle">AI-assisted detection of antibiotic labels, disposal risk, and safe handling guidance.</p>
+
+    <div class="hero-grid">
+        <div class="preview-box premium-card">
+            <h2>Uploaded Image</h2>
+            <img src="{{ url_for('static', filename='temp/' + scan['filename']) }}" width="320" alt="Uploaded medicine image">
+            <div class="mini-info">
+                <p><b>📁 File:</b> {{ scan["filename"] }}</p>
+                <p><b>🧾 Status:</b> {{ scan["status_title"] }}</p>
+            </div>
+        </div>
+
+        <div class="summary-box premium-card">
+            <div class="status-line">
+                <span class="status-pill">{{ scan["status_title"] }}</span>
+                <span class="{{ confidence_class }}">Confidence: {{ scan["confidence"] }}</span>
+            </div>
+
+            <h2>Smart Summary</h2>
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <span class="summary-label">💊 Medicine</span>
+                    <span class="summary-value">{{ scan["detected_medicine"] }}</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">📂 Category</span>
+                    <span class="summary-value">{{ scan["category"] }}</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">⚠️ Risk</span>
+                    <span class="summary-value"><span class="{{ risk_class }}">{{ scan["risk_level"] }}</span></span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">📅 Expiry</span>
+                    <span class="summary-value">{{ scan["expiry_date"] }}</span>
+                </div>
+                <div class="summary-item full-row">
+                    <span class="summary-label">♻️ Recommended Disposal</span>
+                    <span class="summary-value">{{ scan["recommendation"] }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ocr-box amr-box premium-card">
+        <h2>System Recommendation</h2>
+        <p>{{ scan["recommendation"] }}</p>
+        <div class="info-highlight">
+            <b>AMR Advisory:</b> {{ scan["awareness_message"] }}
+        </div>
+    </div>
+
+    {% if raw_ocr_visible %}
+    <details class="ocr-details">
+        <summary>Show Technical OCR Details</summary>
+        <div class="ocr-box premium-card">
+            <h2>Extracted OCR Text</h2>
+            <pre>{{ scan["raw_text"] }}</pre>
+        </div>
+
+        <div class="ocr-box premium-card">
+            <h2>Processed OCR Text</h2>
+            <pre>{{ scan["cleaned_text"] }}</pre>
+        </div>
+    </details>
+    {% endif %}
+
+    <div class="result-actions">
+        <a href="{{ url_for('proof', medicine=scan['detected_medicine']) }}">Submit Disposal Proof</a>
+        <a href="{{ url_for('download_report', scan_id=scan['id']) }}">Download PDF Report</a>
+        <a href="{{ url_for('dashboard') }}">View Dashboard</a>
+        <a href="{{ url_for('home') }}">Back to Home</a>
+    </div>
+</div>
+{% endblock %}

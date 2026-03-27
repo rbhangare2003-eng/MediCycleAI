@@ -1,0 +1,15 @@
+[
+    {
+        "filename": "tablate.jpeg",
+        "detected_medicine": "Not detected",
+        "category": "Unknown",
+        "risk_level": "Low",
+        "recommendation": "Dispose as normal pharmaceutical waste",
+        "awareness_message": "Follow safe medicine disposal practices.",
+        "expiry_date": "Not found",
+        "confidence": "Low",
+        "status_title": "Label Unclear",
+        "points": 40,
+        "timestamp": "2026-03-27 14:28:33"
+    }
+]
