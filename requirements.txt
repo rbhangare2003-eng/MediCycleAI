@@ -1,7 +1,8 @@
 streamlit
-pandas
-pillow
 pytesseract
+pillow
+opencv-python-headless
 qrcode
 reportlab
-opencv-python-headless
+pandas
+werkzeug
